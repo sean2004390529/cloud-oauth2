@@ -1,0 +1,8 @@
+**/target
+**/static
+**/modules
+**/plugins
+*.css
+*.css.map
+*.png
+*.jpg

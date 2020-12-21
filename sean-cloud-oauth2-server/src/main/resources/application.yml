@@ -1,0 +1,43 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /auth
+
+spring:
+  application:
+    name: sean-security-server
+#  session:
+#    store-type: redis #session存储方式，默认为none
+#  redis:
+#    host: 192.168.224.101
+#    port: 6379
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.224.101:3306/security_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: P@ssw0rd
+    #   数据源其他配置, 在 DruidConfig配置类中手动绑定(不用理会报黄)
+    initialSize: 8
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true #开启对delete和put方法的处理
+    
+mybatis-plus:
+  type-aliases-package: com.sean.web.entities
+  
+logging:
+  level:
+    com.sean.web.mapper: debug  #打印SQL语句
+
+eureka:  client:    register-with-eureka: true
+    fetch-registry: true
+    service-url:      defaultZone: http://localhost:6001/eureka
+  instance:    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sean.web.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.sean.web.entities.SysUser">
+        <id column="id" property="id" />
+        <result column="username" property="name" />
+        <result column="is_account_non_expired" property="isAccountNonExpired" />
+        <result column="is_account_non_locked" property="isAccountNonLocked" />
+        <result column="is_credentials_non_expired" property="isCredentialsNonExpired" />
+        <result column="is_enable" property="isEnable" />
+        <result column="nick_name" property="nickName" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="create_date" property="createDate" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, is_account_non_expired, is_account_non_locked, is_credentials_non_expired, is_enabled, nick_name, mobile, email, create_date, update_date
+    </sql>
+
+	<!-- 分页(前端传入分页参数，并按角色名查询) -->
+	<select id="customSelectPage" resultType="SysUser">
+		select <include refid="Base_Column_List" />
+		from sys_user
+		where is_enabled=1
+			<if test="user.username !=null and user.username !='' ">
+				and username LIKE CONCAT('%', #{user.username}, '%')
+			</if>
+			<if test="user.mobile !=null and user.mobile !='' ">
+				and mobile = #{user.mobile}
+			</if>
+	</select>
+	
+	<!-- 根据用户 id 删除所属角色(删除sys_user_role) -->
+	<delete id="customDeleteRoleByUserId">
+		delete from sys_user_role where user_id = #{userId}
+	</delete>
+
+	<!-- 根据用户id，保存所属角色 (添加sys_user_role) -->
+	<insert id="customSaveUserRole">
+		insert into sys_user_role (user_id, role_id) values
+			<foreach collection="roleIds" item="item" index="index" separator=",">
+				( #{userId}, #{item} )
+			</foreach>
+	</insert>
+	
+	
+</mapper>

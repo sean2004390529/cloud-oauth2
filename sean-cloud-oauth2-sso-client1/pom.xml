@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.sean</groupId>
+    <artifactId>sean-cloud-oauth2-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>sean-cloud-oauth2-sso-client1</artifactId>
+    <dependencies>
+
+    <dependency>
+  		<groupId>com.sean</groupId>
+  		<artifactId>sean-cloud-oauth2-base</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  
+     <!--spring mvc相关的-->
+     <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+     </dependency>
+
+	<!-- Spring Security、OAuth2 和JWT等 -->
+    <dependency>
+       <groupId>org.springframework.cloud</groupId>
+       <artifactId>spring-cloud-starter-oauth2</artifactId>
+    </dependency>
+    
+    <!-- eureka client-->
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+    
+    <!-- mybatis-plus 
+    <dependency>
+    	<groupId>com.baomidou</groupId>
+    	<artifactId>mybatis-plus-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    -->
+    
+    <!-- druid连接池 
+    <dependency>
+    	<groupId>com.alibaba</groupId>
+    	<artifactId>druid</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    -->
+    
+    <!-- redis 存储token
+    <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    -->
+        
+     <!-- springboot 单元测试 -->
+     <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
+     </dependency>
+     <!--热部署 ctrl+f9-->
+     <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-devtools</artifactId>
+     </dependency>
+     
+    <!-- thymeleaf 模块启动器 前后端项目时清除 -->
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+  	</dependency>
+    <!--对Thymeleaf添加Spring Security标签支持 前后端项目时清除-->
+    <dependency>
+        <groupId>org.thymeleaf.extras</groupId>
+        <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+    </dependency>
+  </dependencies>
+  
+  
+  
+   <build>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			<configuration>
+				<fork>true</fork>
+				<addResources>true</addResources>
+			</configuration>
+	     	<executions>
+               <execution>
+                   <phase>package</phase>
+                   <goals>
+                       <goal>repackage</goal>
+                   </goals>
+               </execution>
+           </executions>
+		</plugin>
+  	     <plugin>
+			<groupId>com.spotify</groupId>
+			<artifactId>dockerfile-maven-plugin</artifactId>
+			<version>1.3.6</version>
+	     	<configuration>
+	     		<repository>${project.artifactId}</repository>
+	     		<buildArgs>
+	     			<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+	     		</buildArgs>
+	     	</configuration>
+	     </plugin>
+	   </plugins>
+	</build>
+</project>
